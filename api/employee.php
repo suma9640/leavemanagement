@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Move the uploaded files to the respective directories
         if (move_uploaded_file($employee_image['tmp_name'], $employee_image_path) && move_uploaded_file($id_proof_image['tmp_name'], $id_proof_image_path)) {
-            // Insert employee data into the database with the file paths
+            // Insert employee data into the database with the department name
             $query = "INSERT INTO emloyee (employee_name, employee_email, employee_bio_id, employee_department, employee_designation, employee_image, id_proof_image) 
                       VALUES ('$employee_name', '$employee_email', '$employee_bio_id', '$employee_department', '$employee_designation', '$employee_image_path', '$id_proof_image_path')";
 

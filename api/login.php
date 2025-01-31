@@ -1,60 +1,84 @@
 <?php
 session_start();
+include('db.php');
 
-// Include database connection file
-require_once('db.php');
+header('Content-Type: application/json');
 
-// Create an array to store the response
-$response = array();
-
-// Check if the form was submitted using POST method
+// Handle POST request
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get the form data and sanitize it
-    $email = mysqli_real_escape_string($conn, trim($_POST['email']));
-    $password = mysqli_real_escape_string($conn, trim($_POST['password']));
+    $bioid = $_POST['bioid'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    // Validate inputs
-    if (empty($email) || empty($password)) {
-        $response['status'] = 'error';
-        $response['message'] = 'Please fill in both email and password!';
-    } else {
-        // Check if the email exists in the database
-        $query = "SELECT * FROM register WHERE email = '$email'";
-        $result = mysqli_query($conn, $query);
+    // Validation check
+    if (empty($bioid) || empty($password)) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Bio ID and password are required."
+        ]);
+        exit();
+    }
 
-        if (mysqli_num_rows($result) > 0) {
-            // Fetch user data
-            $user = mysqli_fetch_assoc($result);
+    // Query to check user credentials based on the bioid
+    $query = "SELECT * FROM register WHERE bioid = '$bioid'";
+    $result = $conn->query($query);
 
-            // Debugging: Check user data (remove in production)
-            // var_dump($user);
+    if ($result->num_rows > 0) {
+        $user = $result->fetch_assoc();
 
-            // Verify the password (use password_verify if it's hashed)
-            if (password_verify($password, $user['password'])) {
-                // Store the necessary data in the session
-                $_SESSION['user_id'] = $user['id'];  // Store user id in session
-                $_SESSION['email'] = $user['email'];  // Store email in session
-                
-                // Return success message
-                $response['status'] = 'success';
-                $response['message'] = 'Login successful!';
+        // Direct password comparison (no hashing)
+        if ($password === $user['password']) {
+            // If the password is correct, get user info based on bioid
+            $usertype = $user['usertype']; // Assuming `usertype` is a column in your `register` table
+            $id = $user['id']; // User ID, assuming this column exists in your table
+
+            // Set session or token (optional based on your requirements)
+            $_SESSION['user_id'] = $id;  // Store user ID in session
+
+            if ($usertype == 'admin') {
+                $response = [
+                    "status" => "success",
+                    "message" => "Admin Login Successfully!!!",
+                    "usertype" => "admin",
+                    "id" => $id
+                ];
+            } elseif ($usertype == 'user') {
+                $response = [
+                    "status" => "success",
+                    "message" => "User Login Successfully!!!",
+                    "usertype" => "user",
+                    "id" => $id
+                ];
             } else {
-                $response['status'] = 'error';
-                $response['message'] = 'Invalid password!';
+                $response = [
+                    "status" => "success",
+                    "message" => "Welcome, Guest!",
+                    "usertype" => "guest",
+                    "id" => $id
+                ];
             }
         } else {
-            $response['status'] = 'error';
-            $response['message'] = 'Email not found!';
+            // Incorrect password
+            $response = [
+                "status" => "error",
+                "message" => "Invalid password."
+            ];
         }
+    } else {
+        // User not found
+        $response = [
+            "status" => "error",
+            "message" => "Invalid Bio ID."
+        ];
     }
+
+    echo json_encode($response);
 } else {
-    $response['status'] = 'error';
-    $response['message'] = 'Invalid request method. Please use POST.';
+    echo json_encode([
+        "status" => "error",
+        "message" => "Invalid request method."
+    ]);
 }
 
-// Close the database connection
-mysqli_close($conn);
-
-// Return the response as JSON
-echo json_encode($response);
+// Close connection
+$conn->close();
 ?>

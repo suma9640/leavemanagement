@@ -1,4 +1,7 @@
 <?php
+// Start the session at the beginning
+session_start();
+
 // Include database connection file
 require_once('db.php');
 
@@ -32,6 +35,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Insert the data into the database
             $insert_query = "INSERT INTO register (name, email, password, usertype) VALUES ('$name', '$email', '$password', '$user_type')";
             if (mysqli_query($conn, $insert_query)) {
+                // Get the inserted ID (auto-incremented id)
+                $user_id = mysqli_insert_id($conn);
+
+                // On successful registration, store id and name separately in the session
+                $_SESSION['user_id'] = $user_id;  // Store the generated user ID
+                $_SESSION['user_name'] = $name;   // Store the user's name
+
                 $response['status'] = 'success';
                 $response['message'] = 'Registration successful!';
             } else {

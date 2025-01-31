@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body>
   <div class="container">
     <div class="row justify-content-center">
@@ -16,15 +18,17 @@
           </div>
           <div class="card-body">
             <form id="loginForm">
-              <!-- Email Field -->
+              <!-- Bio ID Field -->
               <div class="form-floating mb-3">
-                <input type="email" class="form-control" id="email" name="email" required>
-                <label for="email">Email</label>
+                <input type="text" class="form-control" id="bioid" name="bioid" placeholder="Enter your Bio ID" required>
+                <label for="bioid">Bio ID</label>
               </div>
+
+              
 
               <!-- Password Field -->
               <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="password" name="password" required>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                 <label for="password">Password</label>
               </div>
 
@@ -40,29 +44,36 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $(document).ready(function() {
-      $('#loginForm').on('submit', function(event) {
+    $(document).ready(function () {
+      $('#loginForm').on('submit', function (event) {
         event.preventDefault();
 
-        // Serialize form data
-        var formData = $(this).serialize();
+        var formData = $(this).serialize(); // This will serialize all form fields including bioid
 
-        // Send AJAX request
         $.ajax({
-          url: 'api/login.php',  // PHP file to handle login logic
+          url: 'api/login.php',
           method: 'POST',
           data: formData,
           dataType: 'json',
-          success: function(response) {
-            if (response.status == 'success') {
-              // Redirect to dashboard or another page
-              window.location.href = 'dashboard.php'; // Redirect after successful login
-            } else {
-              // Show error message
+          success: function (response) {
+            if (response.status === 'success') {
+              // Show a success alert
               alert(response.message);
+
+              // Redirect user based on their role
+              if (response.usertype === 'admin') {
+                window.location.href = 'admin/adminhome.php';
+              } else if (response.usertype === 'user') {
+                window.location.href = 'user/userhome.php';
+              } else {
+                window.location.href = 'guest_dashboard.php';
+              }
+            } else {
+              // Show an error alert
+              alert('Error: ' + response.message);
             }
           },
-          error: function() {
+          error: function () {
             alert('An error occurred. Please try again.');
           }
         });
@@ -70,4 +81,5 @@
     });
   </script>
 </body>
+
 </html>

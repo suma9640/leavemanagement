@@ -131,6 +131,10 @@
     <form id="signupForm">
       <h2>Sign Up</h2>
       <div class="input-field">
+        <input type="text" id="bioid" name="bioid" required>
+        <label for="bioid">Enter your Bio ID</label>
+      </div>
+      <div class="input-field">
         <input type="text" id="name" name="name" required>
         <label for="name">Enter your name</label>
       </div>
