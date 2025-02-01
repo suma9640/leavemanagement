@@ -44,76 +44,62 @@
 
   <div class="container">
     <h2 class="text-center mb-4">Application History</h2>
-
-    <!-- Card Layout for Application History -->
-    <div class="row">
-      <!-- Card 1 -->
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            Application #1
-          </div>
-          <div class="card-body">
-            <p><strong>Name:</strong> John Doe</p>
-            <p><strong>Designation:</strong> Software Developer</p>
-            <p><strong>Bio ID:</strong> JD123</p>
-            <p><strong>Date of Leave:</strong> 2025-02-01</p>
-            <p><strong>No. of Days:</strong> 3</p>
-            <p><strong>Date of Application:</strong> 2025-01-30</p>
-            <p><strong>Reason for Leave:</strong> Sick Leave</p>
-            <p><strong>Status:</strong> Approved</p>
-            <!-- Optional Action Button -->
-            <!-- <button class="btn">View</button> -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            Application #2
-          </div>
-          <div class="card-body">
-            <p><strong>Name:</strong> Jane Smith</p>
-            <p><strong>Designation:</strong> Project Manager</p>
-            <p><strong>Bio ID:</strong> JS456</p>
-            <p><strong>Date of Leave:</strong> 2025-02-05</p>
-            <p><strong>No. of Days:</strong> 5</p>
-            <p><strong>Date of Application:</strong> 2025-01-29</p>
-            <p><strong>Reason for Leave:</strong> Personal Leave</p>
-            <p><strong>Status:</strong> Pending</p>
-            <!-- Optional Action Button -->
-            <!-- <button class="btn">View</button> -->
-          </div>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="col-md-4">
-        <div class="card">
-          <div class="card-header">
-            Application #3
-          </div>
-          <div class="card-body">
-            <p><strong>Name:</strong> Michael Brown</p>
-            <p><strong>Designation:</strong> Team Leader</p>
-            <p><strong>Bio ID:</strong> MB789</p>
-            <p><strong>Date of Leave:</strong> 2025-02-07</p>
-            <p><strong>No. of Days:</strong> 2</p>
-            <p><strong>Date of Application:</strong> 2025-01-28</p>
-            <p><strong>Reason for Leave:</strong> Vacation</p>
-            <p><strong>Status:</strong> Rejected</p>
-            <!-- Optional Action Button -->
-            <!-- <button class="btn">View</button> -->
-          </div>
-        </div>
-      </div>
+    <div id="applications-row" class="row">
+      <!-- Dynamic application cards will be inserted here -->
     </div>
   </div>
 
   <!-- Bootstrap JS (Optional) -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      const userId = 1; // Example user_id (replace with dynamic value if needed)
+
+      // Fetch leave applications for the specific user
+      fetchLeaveApplications(userId);
+
+      function fetchLeaveApplications(userId) {
+        $.ajax({
+          url: '../api/userleavehistory.php', // Your PHP file to fetch data
+          method: 'GET',
+          data: { user_id: userId },
+          success: function(response) {
+            const leaveData = JSON.parse(response);
+            $('#applications-row').empty(); // Clear previous data
+
+            // Loop through the fetched data and create dynamic leave application cards
+            leaveData.forEach(function(leave) {
+              let leaveCard = `
+                <div class="col-md-4">
+                  <div class="card">
+                    <div class="card-header">
+                      Application #${leave.id}
+                    </div>
+                    <div class="card-body">
+                      <p><strong>Name:</strong> ${leave.name}</p>
+                      <p><strong>Designation:</strong> ${leave.designation}</p>
+                      <p><strong>Bio ID:</strong> ${leave.bio_id}</p>
+                      <p><strong>Date of Leave:</strong> ${leave.leave_from} to ${leave.leave_to}</p>
+                      <p><strong>No. of Days:</strong> ${leave.no_of_days}</p>
+                      <p><strong>Date of Application:</strong> ${leave.application_date}</p>
+                      <p><strong>Reason for Leave:</strong> ${leave.reason}</p>
+                      <p><strong>Status:</strong> ${leave.status}</p>
+                    </div>
+                  </div>
+                </div>
+              `;
+              $('#applications-row').append(leaveCard);
+            });
+          },
+          error: function() {
+            alert("Error fetching leave applications.");
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>

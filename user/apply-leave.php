@@ -16,8 +16,7 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
-?>
-<!DOCTYPE html>
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -111,11 +110,24 @@ $conn->close();
           <input type="date" class="form-control" id="leaveEnd" name="leaveEnd">
           <label for="leaveEnd">To Date (Optional)</label>
         </div>
-
       </div>
+
       <div class="form-floating mb-3">
         <input type="number" class="form-control" id="numDays" placeholder="Number of Days" readonly>
         <label for="numDays">No. of Days</label>
+      </div>
+
+      <!-- Leave Type Dropdown -->
+      <div class="form-floating mb-3">
+        <select class="form-select" id="leaveType" required>
+          <option value="">Select Leave Type</option>
+          <option value="CL">Casual Leave (CL)</option>
+          <option value="SL">Sick Leave (SL)</option>
+          <option value="OD">On Duty (OD)</option>
+          <option value="EL">Earned Leave (EL)</option>
+          <option value="CF">Compensatory Leave (CF)</option>
+        </select>
+        <label for="leaveType">Leave Type</label>
       </div>
 
       <!-- Date of Application -->
@@ -134,12 +146,15 @@ $conn->close();
       <div class="form-floating mb-3">
         <select class="form-select" id="department" required>
           <option value="">Select Department</option>
-          <?php foreach ($departments as $department): ?>
-            <option value="<?= $department['department_name']; ?>"><?= $department['department_name']; ?></option>
+          <?php 
+          // Ensure there is no <b> tag here
+          foreach ($departments as $department): ?>
+            <option value="<?= htmlspecialchars($department['department_name']); ?>"><?= htmlspecialchars($department['department_name']); ?></option>
           <?php endforeach; ?>
         </select>
         <label for="department">Department</label>
       </div>
+
       <!-- Submit Button -->
       <button type="submit">Submit Application</button>
     </form>
@@ -194,6 +209,7 @@ $conn->close();
           numDays: $('#numDays').val(),
           reason: $('#reason').val(),
           department: $('#department').val(),
+          leaveType: $('#leaveType').val(),  // Added leaveType
           dateOfApplication: $('#dateOfApplication').val(),
         };
 
@@ -220,10 +236,7 @@ $conn->close();
 
       });
     });
-
-
   </script>
-
 </body>
 
 </html>

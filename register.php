@@ -128,31 +128,57 @@
 </head>
 <body>
   <div class="wrapper">
-    <form id="signupForm">
+    <form id="signupForm" enctype="multipart/form-data">
       <h2>Sign Up</h2>
+      
+      <!-- Bio ID Input -->
       <div class="input-field">
         <input type="text" id="bioid" name="bioid" required>
         <label for="bioid">Enter your Bio ID</label>
       </div>
+
+      <!-- Name Input -->
       <div class="input-field">
         <input type="text" id="name" name="name" required>
         <label for="name">Enter your name</label>
       </div>
+
+      <!-- Email Input -->
       <div class="input-field">
         <input type="email" id="email" name="email" required>
         <label for="email">Enter your email</label>
       </div>
+
+      <!-- Password Input -->
       <div class="input-field">
         <input type="password" id="password" name="password" required>
         <label for="password">Create your password</label>
       </div>
+
+      <!-- Designation Input -->
+      <div class="input-field">
+        <input type="text" id="designation" name="designation" required>
+        <label for="designation">Enter your designation</label>
+      </div>
+
+      <!-- Profile Image Input (Optional) -->
+      <div class="input-field">
+        <input type="file" id="profile_image" name="profile_image">
+        <label for="profile_image">Upload your profile image (optional)</label>
+      </div>
+
+      <!-- Terms and Conditions -->
       <div class="forget">
         <label for="remember">
           <input type="checkbox" id="remember">
           <p>Agree to terms and conditions</p>
         </label>
       </div>
+
+      <!-- Submit Button -->
       <button type="submit">Sign Up</button>
+
+      <!-- Register Section -->
       <div class="register">
         <p>Already have an account? <a href="#">Login</a></p>
       </div>

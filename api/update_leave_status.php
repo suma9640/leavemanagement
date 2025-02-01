@@ -1,37 +1,37 @@
 <?php
-// Include the database connection file
-require_once('db.php');
+// Assuming you have a valid database connection already established
+include('db.php');
+// Check if the required POST parameters are set
+if (isset($_POST['id']) && isset($_POST['status'])) {
+    $leaveId = $_POST['id'];
+    $status = $_POST['status'];
 
-// Check if the request method is POST
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Collect data from POST request
-    $leaveId = isset($_POST['id']) ? $_POST['id'] : '';
-    $status = isset($_POST['status']) ? $_POST['status'] : '';
-
-    // Validate the input
-    if (empty($leaveId) || empty($status)) {
-        echo json_encode(['status' => 'error', 'message' => 'Invalid data.']);
+    // Validate status to prevent invalid values (optional)
+    if ($status !== 'approved' && $status !== 'rejected') {
+        echo json_encode(['message' => 'Invalid status.']);
         exit();
     }
 
-    // Update the status of the leave application
+    // Prepare the query to update the leave status in the database
     $query = "UPDATE applyleave SET status = ? WHERE id = ?";
+    
     if ($stmt = $conn->prepare($query)) {
-        // Bind parameters and execute the query
-        $stmt->bind_param("si", $status, $leaveId);
+        $stmt->bind_param('si', $status, $leaveId);
+
+        // Execute the query and check if it was successful
         if ($stmt->execute()) {
-            echo json_encode(['status' => 'success', 'message' => 'Leave status updated successfully.']);
+            echo json_encode(['message' => 'Leave status updated successfully.']);
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to update leave status.']);
+            echo json_encode(['message' => 'Failed to update leave status.']);
         }
 
-        // Close the prepared statement
         $stmt->close();
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Database query error.']);
+        echo json_encode(['message' => 'Database query error.']);
     }
-
-    // Close the database connection
-    $conn->close();
+} else {
+    echo json_encode(['message' => 'Missing required parameters.']);
 }
+
+$conn->close();
 ?>

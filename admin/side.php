@@ -45,9 +45,9 @@
         <nav class="nav flex-column">
             <a class="nav-link" href="#">Home</a>
             <a class="nav-link" href="employeelist.php">Employee List</a>
-            <a class="nav-link" href="#">Approve/Cancel Leave</a>
-            <a class="nav-link" href="#">Department</a>
-            <a class="nav-link" href="#">Types of Leave</a>
-            <a class="nav-link" href="#">Profile</a>
+            <a class="nav-link" href="fetchleave.php">Leaves Approve</a>
+            <a class="nav-link" href="dept.php">Department</a>
+            <!-- <a class="nav-link" href="#">Types of Leave</a> -->
+            <a class="nav-link" href="profile.php">Profile</a>
         </nav>
     </div>

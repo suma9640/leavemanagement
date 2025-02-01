@@ -17,9 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $dateOfApplication = isset($_POST['dateOfApplication']) ? $_POST['dateOfApplication'] : '';
     $reason = isset($_POST['reason']) ? $_POST['reason'] : '';
     $department = isset($_POST['department']) ? $_POST['department'] : '';
+    $leaveType = isset($_POST['leaveType']) ? $_POST['leaveType'] : ''; // Collect leave type
 
     // Validate the data (for example, check if any required fields are empty)
-    if (empty($name) || empty($bioid) || empty($designation) || empty($leaveStart) || empty($numDays) || empty($dateOfApplication) || empty($reason) || empty($department)) {
+    if (empty($name) || empty($bioid) || empty($designation) || empty($leaveStart) || empty($numDays) || empty($dateOfApplication) || empty($reason) || empty($department) || empty($leaveType)) {
         echo json_encode(array('status' => 'error', 'message' => 'All fields are required.'));
         exit();
     }
@@ -37,12 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userId = $_SESSION['user_id'];  // Get the user_id from the session
 
         // Prepare the SQL query to insert data into the database
-        $query = "INSERT INTO applyleave (user_id, name, bioid, designation, dateleavesought_from, dateleavesought_to, noofdays, reason, department, dateofapplication, status) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO applyleave (user_id, name, bioid, designation, dateleavesought_from, dateleavesought_to, noofdays, reason, department, dateofapplication, leavetype, status) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Bind the parameters (including user_id)
+        // Bind the parameters (including user_id and leave_type)
         if ($stmt = $conn->prepare($query)) {
-            $stmt->bind_param("issssssssss", $userId, $name, $bioid, $designation, $leaveStart, $leaveEnd, $numDays, $reason, $department, $dateOfApplication, $status);
+            $stmt->bind_param("isssssssssss", $userId, $name, $bioid, $designation, $leaveStart, $leaveEnd, $numDays, $reason, $department, $dateOfApplication, $leaveType, $status);
 
             // Execute the query
             if ($stmt->execute()) {
@@ -58,7 +59,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         'numDays' => $numDays,
                         'dateOfApplication' => $dateOfApplication,
                         'reason' => $reason,
-                        'department' => $department
+                        'department' => $department,
+                        'leaveType' => $leaveType  // Include leave type in response
                     )
                 ));
             } else {
