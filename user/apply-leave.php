@@ -16,7 +16,8 @@ if ($result->num_rows > 0) {
 }
 
 $conn->close();
-?><!DOCTYPE html>
+?>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -146,13 +147,19 @@ $conn->close();
       <div class="form-floating mb-3">
         <select class="form-select" id="department" required>
           <option value="">Select Department</option>
-          <?php 
+          <?php
           // Ensure there is no <b> tag here
           foreach ($departments as $department): ?>
             <option value="<?= htmlspecialchars($department['department_name']); ?>"><?= htmlspecialchars($department['department_name']); ?></option>
           <?php endforeach; ?>
         </select>
         <label for="department">Department</label>
+      </div>
+
+      <!-- Department Head (Readonly) -->
+      <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="departmentHead" placeholder="Department Head" readonly>
+        <label for="departmentHead">Department Head</label>
       </div>
 
       <!-- Submit Button -->
@@ -168,16 +175,16 @@ $conn->close();
   <!-- jQuery and AJAX Code -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $(document).ready(function () {
+    $(document).ready(function() {
       // Calculate number of days when either start or end date is changed
-      $('#leaveStart, #leaveEnd').on('change', function () {
+      $('#leaveStart, #leaveEnd').on('change', function() {
         const startDate = $('#leaveStart').val();
         let endDate = $('#leaveEnd').val();
 
         if (startDate) {
           // If no end date is provided, set it to the same as the start date
           if (!endDate) {
-            endDate = startDate;  // Treat as a single day leave
+            endDate = startDate; // Treat as a single day leave
           }
 
           const start = new Date(startDate);
@@ -188,7 +195,7 @@ $conn->close();
           const numberOfDays = timeDifference / (1000 * 3600 * 24);
 
           if (numberOfDays >= 0) {
-            $('#numDays').val(numberOfDays + 1);  // Add 1 to include both start and end dates
+            $('#numDays').val(numberOfDays + 1); // Add 1 to include both start and end dates
           } else {
             alert('End date must be after start date.');
             $('#numDays').val('');
@@ -196,8 +203,36 @@ $conn->close();
         }
       });
 
+      // Fetch and display department head when department is selected
+      $('#department').on('change', function() {
+        const selectedDepartment = $(this).val();
+
+        if (selectedDepartment) {
+          $.ajax({
+            url: '../api/get_department_head.php', // API route to fetch department head
+            method: 'GET',
+            data: {
+              department: selectedDepartment
+            },
+            success: function(response) {
+              const res = JSON.parse(response);
+              if (res.status === 'success') {
+                $('#departmentHead').val(res.departmentHead); // Display department head in input field
+              } else {
+                alert('Failed to fetch department head.');
+              }
+            },
+            error: function() {
+              alert('Error fetching department head.');
+            }
+          });
+        } else {
+          $('#departmentHead').val(''); // Clear department head if no department is selected
+        }
+      });
+
       // Submit the leave application form
-      $('#leaveForm').on('submit', function (e) {
+      $('#leaveForm').on('submit', function(e) {
         e.preventDefault();
 
         const formData = {
@@ -205,19 +240,20 @@ $conn->close();
           bioid: $('#bioid').val(),
           designation: $('#designation').val(),
           leaveStart: $('#leaveStart').val(),
-          leaveEnd: $('#leaveEnd').val() || null,  // Send null if To Date is empty
+          leaveEnd: $('#leaveEnd').val() || null, // Send null if To Date is empty
           numDays: $('#numDays').val(),
           reason: $('#reason').val(),
           department: $('#department').val(),
-          leaveType: $('#leaveType').val(),  // Added leaveType
+          departmentHead: $('#departmentHead').val(), // Send department head
+          leaveType: $('#leaveType').val(),
           dateOfApplication: $('#dateOfApplication').val(),
         };
 
         $.ajax({
-          url: '../api/apply_leave.php',  // Route to handle form submission
+          url: '../api/apply_leave.php', // Route to handle form submission
           method: 'POST',
           data: formData,
-          success: function (response) {
+          success: function(response) {
             const res = JSON.parse(response);
 
             // Show the response message in an alert dialog
@@ -225,10 +261,10 @@ $conn->close();
 
             // If the response is success, reset the form
             if (res.status === 'success') {
-              $('#leaveForm')[0].reset();  // Reset form after successful submission
+              $('#leaveForm')[0].reset(); // Reset form after successful submission
             }
           },
-          error: function (error) {
+          error: function(error) {
             // Show error message in an alert dialog if there is an error with the request
             alert('Error submitting the application. Please try again.');
           }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Sidebar</title>
+    <title>Admin Homepage</title>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -69,10 +69,9 @@
         <div class="offcanvas-body">
             <nav class="nav flex-column">
                 <a class="nav-link" href="#">Home</a>
-                <a class="nav-link" href="#">Employee List</a>
+                <a class="nav-link" href="fetch_employee.php">Employee List</a>
                 <a class="nav-link" href="fetchleave.php">Leaves Approve</a>
                 <a class="nav-link" href="#">Department</a>
-                <!-- <a class="nav-link" href="#">Types of Leave</a> -->
                 <a class="nav-link" href="#">Profile</a>
             </nav>
         </div>

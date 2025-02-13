@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_SESSION['user_name'] = $name;   // Store the user's name
                 $_SESSION['designation']=$designation;
                 $_SESSION['profile_image']=$profile_image;
+                $_SESSION['bioid']=$bioid;
 
                 $response['status'] = 'success';
                 $response['message'] = 'Registration successful!';

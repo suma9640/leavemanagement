@@ -44,11 +44,11 @@
         <h4>Menu</h4>
         <nav class="nav flex-column">
             <a class="nav-link" href="#">Home</a>
-            <a class="nav-link" href="apply-leave.php">Apply Leave</a>
-                <a class="nav-link" href="application-history.php">Leave History</a>
-                
-                <a class="nav-link" href="profile.php">Profile</a>
-                <a class="nav-link" href="../login.php">Logout</a>
+            <a class="nav-link" href="./display_holidays.php">Display Holidays</a>
+            <a class="nav-link" href="./apply-leave.php">Apply Leave</a>
+            <a class="nav-link" href="./application-history.php">Leave History</a>
+            <a class="nav-link" href="./profile.php">Profile</a>
+            <a class="nav-link" href="../login.php">Logout</a>
 
         </nav>
     </div>

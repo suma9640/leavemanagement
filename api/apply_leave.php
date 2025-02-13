@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $reason = isset($_POST['reason']) ? $_POST['reason'] : '';
     $department = isset($_POST['department']) ? $_POST['department'] : '';
     $leaveType = isset($_POST['leaveType']) ? $_POST['leaveType'] : ''; // Collect leave type
+    $departmentHead = isset($_POST['departmentHead']) ? $_POST['departmentHead'] : ''; // Collect department head
 
     // Validate the data (for example, check if any required fields are empty)
     if (empty($name) || empty($bioid) || empty($designation) || empty($leaveStart) || empty($numDays) || empty($dateOfApplication) || empty($reason) || empty($department) || empty($leaveType)) {
@@ -38,12 +39,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $userId = $_SESSION['user_id'];  // Get the user_id from the session
 
         // Prepare the SQL query to insert data into the database
-        $query = "INSERT INTO applyleave (user_id, name, bioid, designation, dateleavesought_from, dateleavesought_to, noofdays, reason, department, dateofapplication, leavetype, status) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $query = "INSERT INTO applyleave (user_id, name, bioid, designation, dateleavesought_from, dateleavesought_to, noofdays, reason, department, dateofapplication, leavetype, status, department_head) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         // Bind the parameters (including user_id and leave_type)
         if ($stmt = $conn->prepare($query)) {
-            $stmt->bind_param("isssssssssss", $userId, $name, $bioid, $designation, $leaveStart, $leaveEnd, $numDays, $reason, $department, $dateOfApplication, $leaveType, $status);
+            $stmt->bind_param("issssssssssss", $userId, $name, $bioid, $designation, $leaveStart, $leaveEnd, $numDays, $reason, $department, $dateOfApplication, $leaveType, $status, $departmentHead);
 
             // Execute the query
             if ($stmt->execute()) {
@@ -60,7 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         'dateOfApplication' => $dateOfApplication,
                         'reason' => $reason,
                         'department' => $department,
-                        'leaveType' => $leaveType  // Include leave type in response
+                        'leaveType' => $leaveType, // Include leave type in response
+                        'departmentHead' => $departmentHead // Include department head in response
                     )
                 ));
             } else {
