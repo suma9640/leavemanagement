@@ -1,71 +1,73 @@
 <?php
-// Include the database connection and start the session
-include('../api/db.php');
-session_start(); // Start the session
+session_start();
+include('db.php'); // Your database connection
 
-// Check if user is logged in
-if (isset($_SESSION['bioid'])) {
-    $userId = $_SESSION['bioid']; // Retrieve user_id from session
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
 
-    // Check if it's a GET or POST request
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
-        // Fetch user information
-        $query = "SELECT * FROM emloyee WHERE employee_bio_id = ?";
+        $query = "SELECT name, designation, departmet, email, bioid, profile_image FROM register WHERE id = ?"; // Corrected column names (important!)
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("i", $userId); // Bind the user_id parameter
+        $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
             $user = $result->fetch_assoc();
             echo json_encode([
-                'name' => $user['employee_name'],
-                'designation' => $user['employee_designation'],
-                'department' => $user['employee_department'],
-                'email' => $user['employee_email'],
-                'bio' => $user['employee_bio_id'],
-                'profile_picture' => $user['employee_image'] // Assuming it's stored as a URL or file path
+                'status' => 'success',
+                'data' => [
+                    'name' => $user['name'],
+                    'designation' => $user['designation'],
+                    'department' => $user['departmet'],
+                    'email' => $user['email'],
+                    'bio' => $user['bioid'],
+                    'profile_picture' => $user['profile_image']
+                ]
             ]);
         } else {
-            echo json_encode(['error' => 'User not found']);
+            echo json_encode(['status' => 'error', 'message' => 'User not found']);
         }
-    }
-
-    // Handle POST request for profile update
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Get POST data
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $name = $_POST['name'];
         $designation = $_POST['designation'];
         $department = $_POST['department'];
         $bio = $_POST['bio'];
-        $email=$_POST['email'];
+        $email = $_POST['email'];
 
-        // Handle the profile image (if present)
         $profileImage = null;
         if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
-            $profileImage = 'uploads/' . $_FILES['profile_image']['name'];
-            move_uploaded_file($_FILES['profile_image']['tmp_name'], $profileImage);
+            $targetDir = "../uploads/";  // Make sure this directory exists and has correct permissions
+            $profileImage = $targetDir . basename($_FILES['profile_image']['name']);
+            if (!move_uploaded_file($_FILES['profile_image']['tmp_name'], $profileImage)) {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to upload image']);
+                exit(); // Stop execution on image upload failure
+            }
         }
 
-        // Update user data in the database
-        $query = "UPDATE emloyee SET employee_name = ?,employee_email = ?, employee_designation = ?, employee_department = ?, employee_bio_id = ?, employee_image = ? WHERE id = ?";
+        $query = "UPDATE register SET name = ?, email = ?, designation = ?, departmet = ?, bioid = ?, profile_image = ? WHERE id = ?"; // Corrected column names
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ssssssi", $name,$email, $designation, $department, $bio, $profileImage, $userId);
+        $stmt->bind_param("ssssssi", $name, $email, $designation, $department, $bio, $profileImage, $userId);
 
         if ($stmt->execute()) {
             echo json_encode([
-                'name' => $name,
-                'designation' => $designation,
-                'department' => $department,
-                'email' => $email, // Assuming user email is stored in session
-                'bio' => $bio,
-                'profile_picture' => $profileImage
+                'status' => 'success',
+                'data' => [
+                    'name' => $name,
+                    'designation' => $designation,
+                    'department' => $department,
+                    'email' => $email,
+                    'bio' => $bio,
+                    'profile_picture' => $profileImage
+                ]
             ]);
         } else {
-            echo json_encode(['error' => 'Failed to update profile']);
+            echo json_encode(['status' => 'error', 'message' => 'Failed to update profile: ' . $stmt->error]);
         }
     }
 } else {
-    echo json_encode(['error' => 'User not logged in']);
+    echo json_encode(['status' => 'error', 'message' => 'User not logged in']);
 }
+
+$conn->close(); // Close the database connection
 ?>

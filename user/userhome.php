@@ -149,14 +149,14 @@
             </div>
         </div>
 
-        <div class="row g-4 mt-3">
+        <!-- <div class="row g-4 mt-3">
             <div class="col-md-4">
                 <div class="content">
                     <div class="d-flex align-items-center">
                         <span class="icon-wrapper me-3"><i class="fas fa-user"></i></span>
                         <h3>CF (Compensatory Leave)</h3>
                     </div>
-                    <h4>1/5</h4> <!-- Displaying leaves taken/total leaves -->
+                    <h4>1/5</h4> 
                 </div>
             </div>
 
@@ -166,13 +166,13 @@
                         <span class="icon-wrapper me-3"><i class="fas fa-building"></i></span>
                         <h3>EL (Earned Leave)</h3>
                     </div>
-                    <h4>4/12</h4> <!-- Displaying leaves taken/total leaves -->
+                    <h4>4/12</h4> 
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Leave Summary Box -->
-        <div class="row g-4 mt-3">
+        <!-- <div class="row g-4 mt-3">
             <div class="col-md-4">
                 <div class="leave-summary">
                     <div class="d-flex align-items-center justify-content-center mb-4">
@@ -182,9 +182,9 @@
                     <h4>Total Leaves: <strong>50</strong></h4>
                     <p>Leaves Taken: <strong>15</strong></p>
                     <p>Leaves Left: <strong>35</strong></p> <!-- Displaying the remaining leaves -->
-                </div>
-            </div>
-        </div>
+                <!-- </div> -->
+            <!-- </div> -->
+        <!-- </div> -->
 
         <div class="py-5">
             <!-- The canvas element will now take up 100% width and fit the page -->
@@ -194,25 +194,21 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const labels = ['SL', 'CL', 'OD', 'CF', 'EL'];
+        const labels = ['SL', 'CL', 'OD',];
         const data = {
             labels: labels,
             datasets: [{
                 label: 'Leave Types',
-                data: [3, 2, 5, 1, 4],  // Example data for leaves taken
+                data: [3, 2, 5,],  // Example data for leaves taken
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(255, 159, 64, 0.2)',
                     'rgba(255, 205, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
                 ],
                 borderColor: [
                     'rgb(255, 99, 132)',
                     'rgb(255, 159, 64)',
                     'rgb(255, 205, 86)',
-                    'rgb(75, 192, 192)',
-                    'rgb(54, 162, 235)',
                 ],
                 borderWidth: 1
             }]

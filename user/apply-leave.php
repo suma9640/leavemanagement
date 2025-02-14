@@ -125,8 +125,8 @@ $conn->close();
           <option value="CL">Casual Leave (CL)</option>
           <option value="SL">Sick Leave (SL)</option>
           <option value="OD">On Duty (OD)</option>
-          <option value="EL">Earned Leave (EL)</option>
-          <option value="CF">Compensatory Leave (CF)</option>
+          <!-- <option value="EL">Earned Leave (EL)</option>
+          <option value="CF">Compensatory Leave (CF)</option> -->
         </select>
         <label for="leaveType">Leave Type</label>
       </div>
