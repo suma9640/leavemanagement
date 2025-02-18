@@ -4,18 +4,135 @@
     <title>Profile</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* Basic styling (you can customize this) */
+    /* Basic styling (you can customize this) */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .profile-card {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        width: 300px;
+        text-align: center;
+    }
+
+    .profile-card h3 {
+        font-size: 1.6rem;
+        color: #333;
+        margin: 15px 0;
+    }
+
+    .profile-card p {
+        font-size: 1rem;
+        color: #666;
+        margin: 5px 0;
+    }
+
+    .profile-image {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        object-fit: cover;
+        margin-bottom: 15px;
+    }
+
+    .profile-card button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: background-color 0.3s;
+    }
+
+    .profile-card button:hover {
+        background-color: #0056b3;
+    }
+
+    #editProfileCard {
+        background-color: #fff;
+        border: 1px solid #ccc;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    #editProfileCard input,
+    #editProfileCard textarea {
+        width: 100%;
+        padding: 8px;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    #editProfileCard input[type="file"] {
+        padding: 0;
+    }
+
+    #editProfileCard button[type="submit"] {
+        background-color: #28a745;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #editProfileCard button[type="submit"]:hover {
+        background-color: #218838;
+    }
+
+    #editProfileCard button[type="button"] {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #editProfileCard button[type="button"]:hover {
+        background-color: #c82333;
+    }
+
+    /* For mobile responsiveness */
+    @media (max-width: 600px) {
         .profile-card {
-            border: 1px solid #ccc;
-            padding: 20px;
-            border-radius: 5px;
+            width: 100%;
+            padding: 15px;
         }
+
+        #editProfileCard {
+            width: 100%;
+            padding: 15px;
+        }
+
         .profile-image {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
+            width: 80px;
+            height: 80px;
         }
-    </style>
+    }
+</style>
 </head>
 <body>
 

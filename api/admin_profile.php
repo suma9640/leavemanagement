@@ -8,6 +8,8 @@ if (isset($_SESSION['user_id'])) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $query = "SELECT name, designation, departmet, email, bioid, profile_image FROM register WHERE id = ?"; // Corrected column names (important!)
         $stmt = $conn->prepare($query);
+
+        
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -28,7 +30,7 @@ if (isset($_SESSION['user_id'])) {
         } else {
             echo json_encode(['status' => 'error', 'message' => 'User not found']);
         }
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') { 
         $name = $_POST['name'];
         $designation = $_POST['designation'];
         $department = $_POST['department'];

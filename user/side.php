@@ -48,7 +48,7 @@
             <a class="nav-link" href="./apply-leave.php">Apply Leave</a>
             <a class="nav-link" href="./application-history.php">Leave History</a>
             <a class="nav-link" href="./profile.php">Profile</a>
-            <a class="nav-link" href="../login.php">Logout</a>
+            <a class="nav-link" href="../index.php">Logout</a>
 
         </nav>
     </div>
