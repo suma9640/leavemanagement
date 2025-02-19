@@ -3,16 +3,13 @@
 <head>
     <title>Profile</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <style>
     /* Basic styling (you can customize this) */
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
+      display: flex;
     }
 
     .profile-card {
@@ -23,6 +20,10 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         width: 300px;
         text-align: center;
+        height: 500px;
+        position: relative;
+        top: 20px;
+        left: 20%;
     }
 
     .profile-card h3 {
@@ -132,9 +133,13 @@
             height: 80px;
         }
     }
+    .nav{
+        gap:20px !important;
+    }
 </style>
 </head>
 <body>
+    <?php include('side.php')?>
 
     <div class="profile-card">
         <img src="" alt="Profile Picture" class="profile-image" id="profileImage">

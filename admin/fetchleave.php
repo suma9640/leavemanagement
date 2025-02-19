@@ -7,6 +7,9 @@
     <title>Leave Applications</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        body{
+            display:flex;
+        }
         .leave-card {
             border: 1px solid #ddd;
             padding: 20px;
@@ -31,12 +34,20 @@
             display: flex;
             gap: 10px;
         }
+   /* side bar style */
+   .sidebar{
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+    }
+    .nav{
+      gap: 20px !important;
+    }
     </style>
 </head>
 
 <body>
+    <?php include('side.php')?>
 
-    <div class="container mt-5">
+    <div class="container mt-3">
         <h2>Leave Applications</h2>
         <div id="leave-applications">
             <!-- Leave applications will be dynamically inserted here -->

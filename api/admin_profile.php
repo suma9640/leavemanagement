@@ -8,8 +8,6 @@ if (isset($_SESSION['user_id'])) {
     if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         $query = "SELECT name, designation, departmet, email, bioid, profile_image FROM register WHERE id = ?"; // Corrected column names (important!)
         $stmt = $conn->prepare($query);
-
-        
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -24,20 +22,34 @@ if (isset($_SESSION['user_id'])) {
                     'department' => $user['departmet'],
                     'email' => $user['email'],
                     'bio' => $user['bioid'],
-                    'profile_picture' => $user['profile_image']
+                    'profile_picture' => $user['profile_image'] // Display the existing image
                 ]
             ]);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'User not found']);
         }
-    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') { 
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $name = $_POST['name'];
         $designation = $_POST['designation'];
         $department = $_POST['department'];
         $bio = $_POST['bio'];
         $email = $_POST['email'];
 
-        $profileImage = null;
+        // Start by fetching the current image to retain if no new image is uploaded
+        $query = "SELECT profile_image FROM register WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $currentImage = '';
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $currentImage = $row['profile_image']; // Retain current image if no new one is uploaded
+        }
+
+        $profileImage = $currentImage; // Default to current image if no new image is uploaded
+        
+        // If a new profile image is uploaded, process it
         if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
             $targetDir = "../uploads/";  // Make sure this directory exists and has correct permissions
             $profileImage = $targetDir . basename($_FILES['profile_image']['name']);
@@ -47,6 +59,7 @@ if (isset($_SESSION['user_id'])) {
             }
         }
 
+        // Update the user's profile data in the database
         $query = "UPDATE register SET name = ?, email = ?, designation = ?, departmet = ?, bioid = ?, profile_image = ? WHERE id = ?"; // Corrected column names
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ssssssi", $name, $email, $designation, $department, $bio, $profileImage, $userId);

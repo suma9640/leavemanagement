@@ -9,13 +9,24 @@
     body {
       background-color: #f8f9fa;
       font-family: 'Arial', sans-serif;
+      display: flex;
     }
     .container {
       margin-top: 50px;
     }
+    /* side bar style */
+    .sidebar{
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+    }
+    .nav{
+      gap: 20px !important;
+    }
   </style>
 </head>
 <body>
+  
+  <?php include('side.php')?>
+
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-8 col-lg-6">

@@ -10,6 +10,7 @@
     body {
       background-color: #f8f9fa;
       padding: 20px;
+      display: flex;
     }
     .container {
       background: rgba(255, 255, 255, 0.9);
@@ -38,9 +39,17 @@
     .btn:hover {
       background-color: #0056b3;
     }
+    /* side bar style */
+    .sidebar{
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+    }
+    .nav{
+      gap: 20px !important;
+    }
   </style>
 </head>
 <body>
+  <?php include('side.php')?>
 
   <div class="container">
     <h2 class="text-center mb-4">Application History</h2>

@@ -43,7 +43,7 @@
 <div class="sidebar d-flex flex-column p-3">
         <h4>Menu</h4>
         <nav class="nav flex-column">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="adminhome.php">Home</a>
             <a class="nav-link" href="fetch_employee.php">Employee List</a>
             <a class="nav-link" href="fetchleave.php">Leaves Approve</a>
             <a class="nav-link" href="dept.php">Department</a>

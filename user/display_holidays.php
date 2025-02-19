@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
+    <script src="../bootstrap/js/bootstrap.min.js"></script>
     <title>Holiday List</title>
     <style>
         * {
@@ -14,6 +16,7 @@
             margin: 0;
             padding: 0;
             background: linear-gradient(to right, #f5f7fa, #c3cfe2);
+            display: flex;
         }
 
         .holiday-list-section {
@@ -23,7 +26,6 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
             margin: 20px auto;
             max-width: 900px; /* Max width for large screens */
-            width: 90%;
             min-height: 100vh;
         }
 
@@ -92,6 +94,23 @@
             background-color: #2ecc71;
         }
 
+        /* Holiday section container */
+        .holiday-sections {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .holiday-column {
+            width: 48%;
+        }
+
+        .holiday-column h3 {
+            text-align: center;
+            color: #34495e;
+            margin-bottom: 20px;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .holiday-list-section {
@@ -118,13 +137,33 @@
                 padding: 8px;
             }
         }
+        /* side bar style */
+    .sidebar{
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+    }
+    .nav{
+      gap: 20px !important;
+    }
     </style>
 </head>
 <body>
+    <?php include('side.php')?> <!-- Include sidebar -->
     <div class="holiday-list-section">
         <h2>Holiday List</h2>
         <button class="refresh-button" onclick="fetchHolidayList()">Refresh Holiday List</button>
-        <div id="holidayList"></div>
+        <div class="holiday-sections">
+            <!-- Third Saturday Section -->
+            <div class="holiday-column" id="thirdSaturdays">
+                <h3>Third Saturdays</h3>
+                <div id="thirdSaturdayList"></div>
+            </div>
+            
+            <!-- Remaining Holidays Section -->
+            <div class="holiday-column" id="remainingHolidays">
+                <h3>Remaining Holidays</h3>
+                <div id="holidayList"></div>
+            </div>
+        </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -139,31 +178,53 @@
                     const holidays = JSON.parse(response);
 
                     // Clear previous holiday list
+                    $('#thirdSaturdayList').empty();
                     $('#holidayList').empty();
 
                     if (holidays.length > 0) {
+                        // Arrays to hold third Saturdays and remaining holidays
+                        let thirdSaturdays = [];
+                        let remainingHolidays = [];
+
                         holidays.forEach(function(holiday) {
-                            // Get the date of the holiday
                             const holidayDate = new Date(holiday.holiday_date);
                             const isThirdSaturday = checkThirdSaturday(holidayDate);
 
-                            // Add class based on whether it is the third Saturday or not
-                            const holidayClass = isThirdSaturday ? 'third-saturday' : 'default-holiday';
+                            // Check if it's a third Saturday and separate the holidays
+                            if (isThirdSaturday) {
+                                thirdSaturdays.push(holiday);
+                            } else {
+                                remainingHolidays.push(holiday);
+                            }
+                        });
 
+                        // Display Third Saturdays
+                        thirdSaturdays.forEach(function(holiday) {
                             const holidayItem = `
-                                <div class="holiday-item ${holidayClass}">
+                                <div class="holiday-item third-saturday">
                                     <div class="holiday-name">${holiday.holiday_name}</div>
-                                    <div class="holiday-date">${holiday.holiday_date}</div>
+                                    <div class="holiday-date">${formatDate(holiday.holiday_date)}</div>
                                 </div>
                             `;
-                            $('#holidayList').append(holidayItem); // Append holiday item to the list
+                            $('#thirdSaturdayList').append(holidayItem);
+                        });
+
+                        // Display Remaining Holidays
+                        remainingHolidays.forEach(function(holiday) {
+                            const holidayItem = `
+                                <div class="holiday-item default-holiday">
+                                    <div class="holiday-name">${holiday.holiday_name}</div>
+                                    <div class="holiday-date">${formatDate(holiday.holiday_date)}</div>
+                                </div>
+                            `;
+                            $('#holidayList').append(holidayItem);
                         });
                     } else {
-                        $('#holidayList').html('<p>No holidays found.</p>'); // Show message if no holidays are found
+                        $('#holidayList').html('<p>No holidays found.</p>');
                     }
                 },
                 error: function(xhr, status, error) {
-                    $('#holidayList').html('<p>Error fetching holiday data.</p>'); // Show error message
+                    $('#holidayList').html('<p>Error fetching holiday data.</p>');
                 }
             });
         }
@@ -172,9 +233,16 @@
         function checkThirdSaturday(date) {
             const day = date.getDay();
             const dateDay = date.getDate();
-
-            // Check if it's a Saturday (day == 6) and the date is between 15 and 21 (3rd Saturday)
             return day === 6 && dateDay >= 15 && dateDay <= 21;
+        }
+
+        // Format date to display day-month-year
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate();
+            const month = date.getMonth() + 1; // months are zero-indexed
+            const year = date.getFullYear();
+            return `${day}-${month}-${year}`;
         }
 
         // Call the function to fetch the holiday list when the page loads
@@ -182,6 +250,5 @@
             fetchHolidayList();
         });
     </script>
-
 </body>
 </html>

@@ -58,32 +58,48 @@
             background-color: #f44336;
             color: white;
         }
+
+        /* side bar style */
+        .sidebar {
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+        }
+
+        .nav {
+            gap: 20px !important;
+        }
+        body{
+            display:flex;
+        }
     </style>
 </head>
 
 <body>
+    
+    <?php include('side.php') ?>
+    <div class="container ">
+        <div class="row ">
+        <h1>Employee List</h1>
 
-    <h1>Employee List</h1>
-
-    <table id="employeeTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Employee Name</th>
-                <th>Email</th>
-                <th>BIO ID</th>
-                <th>Department</th>
-                <th>Designation</th>
-                <th>Image</th>
-                <th>ID Proof</th>
-                <th>Actions</th> <!-- New Actions column -->
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Employee rows will be inserted here -->
-        </tbody>
-    </table>
-
+        <table id="employeeTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Employee Name</th>
+                    <th>Email</th>
+                    <th>BIO ID</th>
+                    <th>Department</th>
+                    <th>Designation</th>
+                    <th>Image</th>
+                    <th>ID Proof</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Employee rows will be inserted here -->
+            </tbody>
+        </table>
+        </div>
+    </div>
     <!-- Edit Employee Modal -->
     <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="editEmployeeModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">

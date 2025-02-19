@@ -29,8 +29,6 @@ $conn->close();
   <style>
     body {
       display: flex;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
       width: 100%;
       background-color: #f2f2f2;
@@ -44,6 +42,8 @@ $conn->close();
       padding: 30px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(8px);
+      position: relative;
+      left: 10%;
     }
 
     h2 {
@@ -80,28 +80,40 @@ $conn->close();
     .alert {
       margin-top: 20px;
     }
+
+    /* side bar style */
+    .sidebar {
+      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+    }
+
+    .nav {
+      gap: 20px !important;
+    }
   </style>
 </head>
 
 <body>
+  <?php include('side.php')?>
   <div class="wrapper">
     <h2>Leave Application</h2>
     <form action="#" method="POST" id="leaveForm">
-      <!-- Name, Designation, Bio ID -->
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="name" placeholder="Your Name" required>
-        <label for="name">Name</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="designation" placeholder="Your Designation" required>
-        <label for="designation">Designation</label>
-      </div>
-      <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="bioid" placeholder="Your Bio ID" required>
-        <label for="bioid">Bio ID</label>
+      <!-- Name, Designation, Bio ID (Side by side) -->
+      <div class="row">
+        <div class="col-md-4 form-floating mb-3">
+          <input type="text" class="form-control" id="name" placeholder="Your Name" required>
+          <label for="name">Name</label>
+        </div>
+        <div class="col-md-4 form-floating mb-3">
+          <input type="text" class="form-control" id="designation" placeholder="Your Designation" required>
+          <label for="designation">Designation</label>
+        </div>
+        <div class="col-md-4 form-floating mb-3">
+          <input type="text" class="form-control" id="bioid" placeholder="Your Bio ID" required>
+          <label for="bioid">Bio ID</label>
+        </div>
       </div>
 
-      <!-- Date of Leave Sought and Number of Days in the same row -->
+      <!-- Date of Leave Sought and Number of Days (Side by side) -->
       <div class="row">
         <div class="col-md-6 form-floating mb-3">
           <input type="date" class="form-control" id="leaveStart" required name="leaveStart">
@@ -113,28 +125,26 @@ $conn->close();
         </div>
       </div>
 
-      <div class="form-floating mb-3">
-        <input type="number" class="form-control" id="numDays" placeholder="Number of Days" readonly>
-        <label for="numDays">No. of Days</label>
-      </div>
-
-      <!-- Leave Type Dropdown -->
-      <div class="form-floating mb-3">
-        <select class="form-select" id="leaveType" required>
-          <option value="">Select Leave Type</option>
-          <option value="CL">Casual Leave (CL)</option>
-          <option value="SL">Sick Leave (SL)</option>
-          <option value="OD">On Duty (OD)</option>
-          <!-- <option value="EL">Earned Leave (EL)</option>
-          <option value="CF">Compensatory Leave (CF)</option> -->
-        </select>
-        <label for="leaveType">Leave Type</label>
-      </div>
-
-      <!-- Date of Application -->
-      <div class="form-floating mb-3">
-        <input type="date" class="form-control" id="dateOfApplication" required name="dateOfApplication">
-        <label for="dateOfApplication">Date of Application</label>
+      <div class="row">
+        <div class="col-md-4 form-floating mb-3">
+          <input type="number" class="form-control" id="numDays" placeholder="Number of Days" readonly>
+          <label for="numDays">No. of Days</label>
+        </div>
+        <!-- Leave Type Dropdown -->
+        <div class="col-md-4 form-floating mb-3">
+          <select class="form-select" id="leaveType" required>
+            <option value="">Select Leave Type</option>
+            <option value="CL">Casual Leave (CL)</option>
+            <option value="SL">Sick Leave (SL)</option>
+            <option value="OD">On Duty (OD)</option>
+          </select>
+          <label for="leaveType">Leave Type</label>
+        </div>
+        <!-- Date of Application -->
+        <div class="col-md-4 form-floating mb-3">
+          <input type="date" class="form-control" id="dateOfApplication" required name="dateOfApplication">
+          <label for="dateOfApplication">Date of Application</label>
+        </div>
       </div>
 
       <!-- Reason for Leave -->

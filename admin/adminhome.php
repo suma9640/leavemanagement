@@ -69,8 +69,8 @@
         <div class="offcanvas-body">
             <nav class="nav flex-column">
                 <a class="nav-link" href="#">Home</a>
-                <a class="nav-link" href="fetch_employee.php">Employee List</a>
-                <a class="nav-link" href="fetchleave.php">Leaves Approve</a>
+                <a class="nav-link" href="#">Employee List</a>
+                <a class="nav-link" href="#">Leaves Approve</a>
                 <a class="nav-link" href="#">Department</a>
                 <a class="nav-link" href="#">Profile</a>
             </nav>

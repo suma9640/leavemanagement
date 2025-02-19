@@ -38,17 +38,20 @@
             background-color: #e9ecef;
             border-radius: 4px;
         }
+        .nav{
+            gap: 20px !important;
+        }
  </style>   
     
 <div class="sidebar d-flex flex-column p-3">
         <h4>Menu</h4>
         <nav class="nav flex-column">
-            <a class="nav-link" href="#">Home</a>
+            <a class="nav-link" href="userhome.php">Home</a>
             <a class="nav-link" href="./display_holidays.php">Display Holidays</a>
             <a class="nav-link" href="./apply-leave.php">Apply Leave</a>
             <a class="nav-link" href="./application-history.php">Leave History</a>
             <a class="nav-link" href="./profile.php">Profile</a>
-            <a class="nav-link" href="../index.php">Logout</a>
+            <a class="nav-link" href="../login.php">Logout</a>
 
         </nav>
     </div>
