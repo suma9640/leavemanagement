@@ -17,16 +17,25 @@
             padding: 0;
             background: linear-gradient(to right, #f5f7fa, #c3cfe2);
             display: flex;
+            min-height: 100vh;
+        }
+
+        .container-fluid {
+            display: flex;
+            flex-direction: row; /* Layout the sidebar and content side by side */
+            width: 100%;
         }
 
         .holiday-list-section {
             background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
+            border-radius: 5px;
+            padding: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            margin: 20px auto;
-            max-width: 900px; /* Max width for large screens */
-            min-height: 100vh;
+            margin: 1px;
+            flex-grow: 1;
+            max-width: 900px;
+            display: flex;
+            flex-direction: column;
         }
 
         h2 {
@@ -34,6 +43,36 @@
             font-size: 2em;
             margin-bottom: 20px;
             color: #2c3e50;
+        }
+
+        .holiday-sections {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .holiday-column {
+            width: 48%;
+            overflow-y: auto;
+            max-height: 400px; /* Limit height to make it scrollable */
+            padding-right: 10px;
+        }
+
+        .sidebar {
+            width: 250px; /* Width of the sidebar */
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
+            background-color: #fff;
+            padding: 20px;
+        }
+
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .card-body {
+            padding: 20px;
         }
 
         .holiday-item {
@@ -56,25 +95,21 @@
             font-size: 1em;
         }
 
-        /* Hover effect on holiday items */
         .holiday-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Different color for third Saturdays */
         .third-saturday {
             background-color: #3498db;
             color: white;
         }
 
-        /* Default color for all other holidays */
         .default-holiday {
             background-color: #ecf0f1;
             color: #2c3e50;
         }
 
-        /* Button styling */
         .refresh-button {
             display: block;
             width: 200px;
@@ -94,23 +129,6 @@
             background-color: #2ecc71;
         }
 
-        /* Holiday section container */
-        .holiday-sections {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .holiday-column {
-            width: 48%;
-        }
-
-        .holiday-column h3 {
-            text-align: center;
-            color: #34495e;
-            margin-bottom: 20px;
-        }
-
         /* Responsive Design */
         @media (max-width: 768px) {
             .holiday-list-section {
@@ -125,49 +143,52 @@
             .holiday-item {
                 padding: 12px;
             }
-        }
 
-        @media (max-width: 480px) {
-            .holiday-list-section {
-                margin: 10px;
-                padding: 10px;
+            .container-fluid {
+                flex-direction: column; /* Stack the sidebar and content on small screens */
             }
 
-            .holiday-item {
-                padding: 8px;
+            .sidebar {
+                width: 100%; /* Sidebar takes full width on smaller screens */
             }
         }
-        /* side bar style */
-    .sidebar{
-      box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
-    }
-    .nav{
-      gap: 20px !important;
-    }
     </style>
 </head>
 <body>
-    <?php include('side.php')?> <!-- Include sidebar -->
-    <div class="holiday-list-section">
-        <h2>Holiday List</h2>
-        <button class="refresh-button" onclick="fetchHolidayList()">Refresh Holiday List</button>
-        <div class="holiday-sections">
-            <!-- Third Saturday Section -->
-            <div class="holiday-column" id="thirdSaturdays">
-                <h3>Third Saturdays</h3>
-                <div id="thirdSaturdayList"></div>
-            </div>
-            
-            <!-- Remaining Holidays Section -->
-            <div class="holiday-column" id="remainingHolidays">
-                <h3>Remaining Holidays</h3>
-                <div id="holidayList"></div>
+    <div class="container-fluid d-flex">
+        <!-- Sidebar Section -->
+        <?php include('side.php')?> <!-- Include sidebar -->
+
+        <!-- Main Content Section -->
+        <div class="holiday-list-section">
+            <h2>Holiday List</h2>
+            <button class="refresh-button" onclick="fetchHolidayList()">Refresh Holiday List</button>
+            <div class="holiday-sections">
+                <!-- Third Saturday Section -->
+                <div class="holiday-column">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Third Saturdays</h3>
+                            <div id="thirdSaturdayList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Remaining Holidays Section -->
+                <div class="holiday-column">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3>Remaining Holidays</h3>
+                            <div id="holidayList"></div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
     <script>
         // Function to fetch and display the holiday list
         function fetchHolidayList() {

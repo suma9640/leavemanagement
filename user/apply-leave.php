@@ -36,7 +36,7 @@ $conn->close();
 
     .wrapper {
       width: 100%;
-      max-width: 600px;
+      max-width: 620px;
       background: rgba(255, 255, 255, 0.8);
       border-radius: 8px;
       padding: 30px;
@@ -64,7 +64,7 @@ $conn->close();
       width: 100%;
       background: #007BFF;
       color: white;
-      padding: 12px;
+      padding: 10px;
       border: none;
       border-radius: 4px;
       font-size: 16px;
