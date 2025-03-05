@@ -36,14 +36,16 @@ $conn->close();
 
     .wrapper {
       width: 100%;
-      max-width: 620px;
+      max-width: 940px;
       background: rgba(255, 255, 255, 0.8);
       border-radius: 8px;
       padding: 30px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       backdrop-filter: blur(8px);
       position: relative;
-      left: 10%;
+      left: 11%;
+      height: 640px;
+      top: 60px;
     }
 
     h2 {
@@ -93,7 +95,7 @@ $conn->close();
 </head>
 
 <body>
-  <?php include('side.php')?>
+  <?php include('side.php') ?>
   <div class="wrapper">
     <h2>Leave Application</h2>
     <form action="#" method="POST" id="leaveForm">
@@ -160,7 +162,9 @@ $conn->close();
           <?php
           // Ensure there is no <b> tag here
           foreach ($departments as $department): ?>
-            <option value="<?= htmlspecialchars($department['department_name']); ?>"><?= htmlspecialchars($department['department_name']); ?></option>
+            <option value="<?= htmlspecialchars($department['department_name']); ?>">
+              <?= htmlspecialchars($department['department_name']); ?>
+            </option>
           <?php endforeach; ?>
         </select>
         <label for="department">Department</label>
@@ -185,9 +189,9 @@ $conn->close();
   <!-- jQuery and AJAX Code -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       // Calculate number of days when either start or end date is changed
-      $('#leaveStart, #leaveEnd').on('change', function() {
+      $('#leaveStart, #leaveEnd').on('change', function () {
         const startDate = $('#leaveStart').val();
         let endDate = $('#leaveEnd').val();
 
@@ -214,7 +218,7 @@ $conn->close();
       });
 
       // Fetch and display department head when department is selected
-      $('#department').on('change', function() {
+      $('#department').on('change', function () {
         const selectedDepartment = $(this).val();
 
         if (selectedDepartment) {
@@ -224,7 +228,7 @@ $conn->close();
             data: {
               department: selectedDepartment
             },
-            success: function(response) {
+            success: function (response) {
               const res = JSON.parse(response);
               if (res.status === 'success') {
                 $('#departmentHead').val(res.departmentHead); // Display department head in input field
@@ -232,7 +236,7 @@ $conn->close();
                 alert('Failed to fetch department head.');
               }
             },
-            error: function() {
+            error: function () {
               alert('Error fetching department head.');
             }
           });
@@ -242,7 +246,7 @@ $conn->close();
       });
 
       // Submit the leave application form
-      $('#leaveForm').on('submit', function(e) {
+      $('#leaveForm').on('submit', function (e) {
         e.preventDefault();
 
         const formData = {
@@ -263,7 +267,7 @@ $conn->close();
           url: '../api/apply_leave.php', // Route to handle form submission
           method: 'POST',
           data: formData,
-          success: function(response) {
+          success: function (response) {
             const res = JSON.parse(response);
 
             // Show the response message in an alert dialog
@@ -274,7 +278,7 @@ $conn->close();
               $('#leaveForm')[0].reset(); // Reset form after successful submission
             }
           },
-          error: function(error) {
+          error: function (error) {
             // Show error message in an alert dialog if there is an error with the request
             alert('Error submitting the application. Please try again.');
           }

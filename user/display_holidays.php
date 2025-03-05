@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,8 +23,10 @@
 
         .container-fluid {
             display: flex;
-            flex-direction: row; /* Layout the sidebar and content side by side */
+            flex-direction: row;
+            /* Layout the sidebar and content side by side */
             width: 100%;
+            padding: 0;
         }
 
         .holiday-list-section {
@@ -54,12 +57,14 @@
         .holiday-column {
             width: 48%;
             overflow-y: auto;
-            max-height: 400px; /* Limit height to make it scrollable */
+            max-height: 400px;
+            /* Limit height to make it scrollable */
             padding-right: 10px;
         }
 
         .sidebar {
-            width: 250px; /* Width of the sidebar */
+            width: 250px;
+            /* Width of the sidebar */
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
             background-color: #fff;
             padding: 20px;
@@ -145,19 +150,22 @@
             }
 
             .container-fluid {
-                flex-direction: column; /* Stack the sidebar and content on small screens */
+                flex-direction: column;
+                /* Stack the sidebar and content on small screens */
             }
 
             .sidebar {
-                width: 100%; /* Sidebar takes full width on smaller screens */
+                width: 100%;
+                /* Sidebar takes full width on smaller screens */
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container-fluid d-flex">
         <!-- Sidebar Section -->
-        <?php include('side.php')?> <!-- Include sidebar -->
+        <?php include('side.php') ?> <!-- Include sidebar -->
 
         <!-- Main Content Section -->
         <div class="holiday-list-section">
@@ -195,7 +203,7 @@
             $.ajax({
                 url: '../api/fetch_holidays_list.php', // PHP script to fetch the holiday list
                 method: 'GET', // GET method to retrieve data
-                success: function(response) {
+                success: function (response) {
                     const holidays = JSON.parse(response);
 
                     // Clear previous holiday list
@@ -207,7 +215,7 @@
                         let thirdSaturdays = [];
                         let remainingHolidays = [];
 
-                        holidays.forEach(function(holiday) {
+                        holidays.forEach(function (holiday) {
                             const holidayDate = new Date(holiday.holiday_date);
                             const isThirdSaturday = checkThirdSaturday(holidayDate);
 
@@ -220,7 +228,7 @@
                         });
 
                         // Display Third Saturdays
-                        thirdSaturdays.forEach(function(holiday) {
+                        thirdSaturdays.forEach(function (holiday) {
                             const holidayItem = `
                                 <div class="holiday-item third-saturday">
                                     <div class="holiday-name">${holiday.holiday_name}</div>
@@ -231,7 +239,7 @@
                         });
 
                         // Display Remaining Holidays
-                        remainingHolidays.forEach(function(holiday) {
+                        remainingHolidays.forEach(function (holiday) {
                             const holidayItem = `
                                 <div class="holiday-item default-holiday">
                                     <div class="holiday-name">${holiday.holiday_name}</div>
@@ -244,7 +252,7 @@
                         $('#holidayList').html('<p>No holidays found.</p>');
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function (xhr, status, error) {
                     $('#holidayList').html('<p>Error fetching holiday data.</p>');
                 }
             });
@@ -267,9 +275,10 @@
         }
 
         // Call the function to fetch the holiday list when the page loads
-        $(document).ready(function() {
+        $(document).ready(function () {
             fetchHolidayList();
         });
     </script>
 </body>
+
 </html>

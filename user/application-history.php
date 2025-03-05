@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,26 +10,31 @@
   <style>
     body {
       background-color: #f8f9fa;
-      padding: 20px;
+      /* padding: 20px; */
       display: flex;
     }
+
     .container {
       background: rgba(255, 255, 255, 0.9);
       border-radius: 8px;
       padding: 30px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
+
     .card {
       margin-bottom: 20px;
     }
+
     .card-header {
       background-color: #007bff;
       color: white;
       font-weight: bold;
     }
+
     .card-body {
       background-color: #ffffff;
     }
+
     .btn {
       background-color: #007bff;
       color: white;
@@ -36,20 +42,24 @@
       padding: 8px 12px;
       font-size: 14px;
     }
+
     .btn:hover {
       background-color: #0056b3;
     }
+
     /* side bar style */
-    .sidebar{
+    .sidebar {
       box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
     }
-    .nav{
+
+    .nav {
       gap: 20px !important;
     }
   </style>
 </head>
+
 <body>
-  <?php include('side.php')?>
+  <?php include('side.php') ?>
 
   <div class="container">
     <h2 class="text-center mb-4">Application History</h2>
@@ -64,7 +74,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
       const userId = 1; // Example user_id (replace with dynamic value if needed)
 
       // Fetch leave applications for the specific user
@@ -75,12 +85,12 @@
           url: '../api/userleavehistory.php', // Your PHP file to fetch data
           method: 'GET',
           data: { user_id: userId },
-          success: function(response) {
+          success: function (response) {
             const leaveData = JSON.parse(response);
             $('#applications-row').empty(); // Clear previous data
 
             // Loop through the fetched data and create dynamic leave application cards
-            leaveData.forEach(function(leave) {
+            leaveData.forEach(function (leave) {
               let leaveCard = `
                 <div class="col-md-4">
                   <div class="card">
@@ -103,7 +113,7 @@
               $('#applications-row').append(leaveCard);
             });
           },
-          error: function() {
+          error: function () {
             alert("Error fetching leave applications.");
           }
         });
@@ -111,4 +121,5 @@
     });
   </script>
 </body>
+
 </html>
