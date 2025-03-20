@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../uploads/logo-image.png" type="image/x-icon">
     <title>Admin Leave Management</title>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -12,7 +13,6 @@
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f4f6f9;
-            display: flex;
             /* min-height: 100vh;
             align-items: center;
             justify-content: center; */
@@ -25,11 +25,12 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             /* width: 100%; */
             width: 50%;
-    /* max-width: 400px; */
-    position: relative;
-    left: 16%;
-    top:20px;
-    height: 500px;
+            /* max-width: 400px; */
+            position: relative;
+            /* left: 16%;
+            top: 20px; */
+            height: 500px;
+            margin: 0 auto;
         }
 
         .form-container h2 {
@@ -102,7 +103,7 @@
     <?php include('side.php') ?>
 
     <!-- Form Container -->
-    <div class="form-container">
+    <div class="form-container py-5">
         <form id="adjustLeaveForm">
             <h2>Adjust Leave Balances</h2>
 
@@ -123,16 +124,16 @@
     </div>
 
     <script>
-        $(document).ready(function () {
-            $("#adjustLeaveForm").submit(function (event) {
+        $(document).ready(function() {
+            $("#adjustLeaveForm").submit(function(event) {
                 event.preventDefault();
 
                 $.ajax({
-                    url: '../api/leavebalance.php',  // Your PHP script for updating leave balance
+                    url: '../api/leavebalance.php', // Your PHP script for updating leave balance
                     type: 'POST',
                     data: $(this).serialize(),
                     dataType: 'json',
-                    success: function (response) {
+                    success: function(response) {
                         $("#message").empty(); // Clear any previous message
 
                         // Display success or error message
@@ -143,7 +144,7 @@
                             $("#message").html(`<div class="alert alert-danger">${response.message}</div>`);
                         }
                     },
-                    error: function (xhr, status, error) {
+                    error: function(xhr, status, error) {
                         console.error("AJAX Error:", status, error);
                         $("#message").html(`<div class="alert alert-danger">An error occurred. Please try again later.</div>`);
                     }

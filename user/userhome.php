@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../uploads/logo-image.png" type="image/x-icon">
     <title>User Homepage</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -112,7 +113,7 @@
         </div>
     </div>
 
-    <?php include('side.php') ?>
+    <?php include('sidebar.php') ?>
     <div class="contents">
         <h1>Welcome to Employee Dashboard</h1>
         <p>This is where the main content goes.</p>

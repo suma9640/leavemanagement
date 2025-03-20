@@ -2,7 +2,7 @@
 // Assuming you have a valid database connection already established
 include('db.php');
 // Query to count the number of employees
-$query = "SELECT COUNT(*) AS employee_count FROM emloyee";
+$query = "SELECT COUNT(*) AS employee_count FROM register";
 
 // Execute the query
 $result = $conn->query($query);

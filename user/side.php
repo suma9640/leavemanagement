@@ -1,57 +1,84 @@
-<style>
-    @media (max-width:768px) {
-            
-            .sidebar{
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../uploads/logo-image.png" type="image/x-icon">
+    <title>Responsive Navbar with Icons</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        @media (min-width: 769px) {
+            .offcanvas {
                 display: none !important;
             }
-            body{
-                display: block !important;
-            }
         }
 
-        @media (min-width:769px) {
-            .offcanvas{
-                display: none !important;
-            }
-            .navbar{
-                display: none !important;
-            }
-            .sidebar{
-                display:block ;
-            }
-        }
-        
-        .sidebar {
-            min-width: 290px;
-            max-width: 280px;
-            background-color: #f8f9fa;
-            height: 100vh;
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+            width: 100%;
         }
 
-        .sidebar .nav-link {
-            color: #333;
-            padding: 10px;
-            font-weight: 500;
+        .navbar-brand, .nav-link {
+            color: #333 !important;
         }
 
-        .sidebar .nav-link:hover {
-            background-color: #e9ecef;
-            border-radius: 4px;
+        .nav-link:hover {
+            color: #0056b3 !important;
         }
-        .nav{
-            gap: 20px !important;
+        img{
+            width: 60px;
         }
- </style>   
-    
-<div class="sidebar d-flex flex-column p-3">
-        <h4>Menu</h4>
-        <nav class="nav flex-column">
-            <a class="nav-link" href="userhome.php">Home</a>
-            <a class="nav-link" href="./display_holidays.php">Display Holidays</a>
-            <a class="nav-link" href="./apply-leave.php">Apply Leave</a>
-            <a class="nav-link" href="./application-history.php">Leave History</a>
-            <a class="nav-link" href="./profile.php">Profile</a>
-            <a class="nav-link" href="../login.php">Logout</a>
+    </style>
+</head>
 
-        </nav>
+<body>
+
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="btn btn-primary d-lg-none" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasNavbar">
+                <i class="bi bi-list"></i>
+            </button>
+            <a class="navbar-brand" href="#"><img src="../images/logo.png" alt="image-logo"></a>
+
+            <div class="collapse navbar-collapse d-none d-lg-flex">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="userhome.php"><i class="bi bi-house"></i> Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./display_holidays.php"><i class="bi bi-calendar"></i> Display Holidays</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./apply-leave.php"><i class="bi bi-pencil-square"></i> Apply Leave</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./application-history.php"><i class="bi bi-clock-history"></i> Leave History</a></li>
+                    <li class="nav-item"><a class="nav-link" href="./profile.php"><i class="bi bi-person"></i> Profile</a></li>
+                    <li class="nav-item"><a class="nav-link text-danger" href="../login.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Offcanvas Sidebar for Mobile -->
+    <div class="offcanvas offcanvas-start" id="offcanvasNavbar">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="userhome.php"><i class="bi bi-house"></i> Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="./display_holidays.php"><i class="bi bi-calendar"></i> Display Holidays</a></li>
+                <li class="nav-item"><a class="nav-link" href="./apply-leave.php"><i class="bi bi-pencil-square"></i> Apply Leave</a></li>
+                <li class="nav-item"><a class="nav-link" href="./application-history.php"><i class="bi bi-clock-history"></i> Leave History</a></li>
+                <li class="nav-item"><a class="nav-link" href="./profile.php"><i class="bi bi-person"></i> Profile</a></li>
+                <li class="nav-item"><a class="nav-link text-danger" href="../login.php"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+            </ul>
+        </div>
     </div>
+
+</body>
+
+</html>

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="icon" href="../uploads/logo-image.png" type="image/x-icon">
     <title>Profile</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
@@ -9,7 +10,7 @@
     body {
         font-family: Arial, sans-serif;
         background-color: #f4f4f9;
-      display: flex;
+      /* display: flex; */
     }
 
     .profile-card {
@@ -20,10 +21,11 @@
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         width: 300px;
         text-align: center;
-        height: 500px;
+        /* height: 500px; */
         position: relative;
         top: 20px;
-        left: 20%;
+        /* left: 20%; */
+        margin: 0 auto;
     }
 
     .profile-card h3 {

@@ -4,13 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="../uploads/logo-image.png" type="image/x-icon">
   <title>Add Holiday</title>
   <link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
     <script src="../bootstrap/js/bootstrap.min.js"></script>
   <style>
-    body {
+    /* body {
       display: flex;
-    }
+    } */
 
     /* Your styles here */
     .add-holiday-section {
@@ -21,6 +22,7 @@
       margin-top: 40px;
       width: 100%;
       max-width: 600px;
+      margin: 0 auto;
     }
 
     h2 {
@@ -69,7 +71,7 @@
 <body>
 
   <?php include('side.php') ?>
-  <div class="container">
+  <div class="container py-5">
     <div class="add-holiday-section ">
       <h2>Add a Holiday</h2>
       <form id="holidayForm" onsubmit="submitHoliday(event)">

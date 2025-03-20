@@ -16,13 +16,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = mysqli_real_escape_string($conn, $_POST['password']);
     $designation = mysqli_real_escape_string($conn, $_POST['designation']);
-    $user_type = 'user';  // Default user type
+    $department = mysqli_real_escape_string($conn, $_POST['department']);
 
-    // Default profile image
-    $profile_image = 'default-profile.jpg';
+    $user_type = 'user';  // Default user type
+    $default_profile_image = 'uploads/profile.png'; // Path to default image
 
     // Check if the fields are empty
-    if (empty($bioid) || empty($name) || empty($email) || empty($password) || empty($designation)) {
+    if (empty($bioid) || empty($name) || empty($email) || empty($password) || empty($designation) || empty($department)) {
         $response['status'] = 'error';
         $response['message'] = 'Please fill in all fields.';
     } else {
@@ -37,38 +37,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Handle Profile Image Upload
             if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
                 // Define the upload directory
-                $upload_dir = '../uploads/';
-                $profile_image = time() . '_' . $_FILES['profile_image']['name'];
-                $upload_path = $upload_dir . $profile_image;
+                $upload_dir = '../uploads/'; 
+                $profile_image = $upload_dir . time() . '_' . basename($_FILES['profile_image']['name']);
+                $upload_path = $profile_image; // Save the full path in DB
 
                 // Move uploaded file to the uploads directory
-                if (move_uploaded_file($_FILES['profile_image']['tmp_name'], $upload_path)) {
-                    // File uploaded successfully
-                } else {
-                    $response['status'] = 'error';
-                    $response['message'] = 'Error uploading the profile image.';
-                    echo json_encode($response);
-                    exit;
+                if (!move_uploaded_file($_FILES['profile_image']['tmp_name'], $upload_path)) {
+                    $profile_image = $default_profile_image; // Use default if upload fails
                 }
+            } else {
+                $profile_image = $default_profile_image; // Assign default if no file is uploaded
             }
 
             // Hash the password for security
             // $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-            // Insert the data into the database
-            $insert_query = "INSERT INTO register (bioid, name, email, password, designation, profile_image, usertype) 
-                             VALUES ('$bioid', '$name', '$email', '$password', '$designation', '$profile_image', '$user_type')";
+            // Insert into database with full image path
+            $insert_query = "INSERT INTO register (bioid, name, email, password, designation, profile_image, departmet, usertype) 
+                             VALUES ('$bioid', '$name', '$email', '$password', '$designation', '$profile_image', '$department', '$user_type')";
 
             if (mysqli_query($conn, $insert_query)) {
                 // Get the inserted ID (auto-incremented id)
                 $user_id = mysqli_insert_id($conn);
 
                 // On successful registration, store id and name separately in the session
-                $_SESSION['user_id'] = $user_id;  // Store the generated user ID
-                $_SESSION['user_name'] = $name;   // Store the user's name
-                $_SESSION['designation']=$designation;
-                $_SESSION['profile_image']=$profile_image;
-                $_SESSION['bioid']=$bioid;
+                $_SESSION['user_id'] = $user_id;  
+                $_SESSION['user_name'] = $name;   
+                $_SESSION['designation'] = $designation;
+                $_SESSION['profile_image'] = $profile_image;
+                $_SESSION['bioid'] = $bioid;
 
                 $response['status'] = 'success';
                 $response['message'] = 'Registration successful!';
@@ -88,4 +85,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Return the response as JSON
 echo json_encode($response);
-?>

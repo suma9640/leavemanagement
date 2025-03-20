@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 
 include('db.php');
 // Query to fetch employee data
-$query = "SELECT * FROM emloyee";
+$query = "SELECT * FROM register WHERE usertype='user'";
 $result = $conn->query($query);
 
 // Check if data exists
